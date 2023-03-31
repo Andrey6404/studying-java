@@ -1,0 +1,17 @@
+{
+	"java.project.sourcePaths": [
+		"src"
+	],
+	"java.project.outputPath": "bin",
+	"java.project.referencedLibraries": [
+		"lib/**/*.jar",
+		"c:/Libs/java/javafx-sdk-20/lib/javafx.base.jar",
+		"c:/Libs/java/javafx-sdk-20/lib/javafx.controls.jar",
+		"c:/Libs/java/javafx-sdk-20/lib/javafx.fxml.jar",
+		"c:/Libs/java/javafx-sdk-20/lib/javafx.graphics.jar",
+		"c:/Libs/java/javafx-sdk-20/lib/javafx.media.jar",
+		"c:/Libs/java/javafx-sdk-20/lib/javafx.swing.jar",
+		"c:/Libs/java/javafx-sdk-20/lib/javafx.web.jar",
+		"c:/Libs/java/javafx-sdk-20/lib/javafx-swt.ja"
+	]
+}
