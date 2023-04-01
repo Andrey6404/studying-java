@@ -31,6 +31,20 @@ public class Server {
                     while (!request.equals("END")) {
                         request = input.readLine();
                         System.out.println(">> " + request);
+                        if (request.equals("...datasending closing...")) {
+                            out.println("[SERVER] >> Ok, next");
+                            continue;
+                        }
+                        if (request.equals("...datasending in progress..."))
+                            continue;
+                        if (request.equals("close")) {
+                            out.println("close");
+                            break;
+                        }
+                        if (request.split(" ").length != 4) {
+                            out.println("[SERVER] >> int +str +str");
+                            continue;
+                        }
                         /*
                          * / ==========================================
                          * if (request="hi"))
@@ -57,7 +71,7 @@ public class Server {
                         System.out.println("[ANALYSING] >> count is: " + word[0]);
                         System.out.println("[ANALYSING] >> input is: " + word[1]);
                         System.out.println("[ANALYSING] >> outpt is: " + word[3]);
-                        out.println("[SERVER] >> FUCK!!!");
+                        out.println("[SERVER] >> Analysing is ok!");
                     }
                     out.println("[SERVER] >> Break connection! Bye Bye");
                 } catch (Exception e) {
