@@ -32,9 +32,11 @@ public class Networking {
             input = new BufferedReader(
                     new InputStreamReader(
                             socket.getInputStream()));
-
+            datafromserver = input.readLine();
+            System.out.println(datafromserver);
             userdata = new BufferedReader(new StringReader("[EMPTY]"));
             this.pressNickname();
+
             // new ReadingThread().start();
             // new WritingThread().start();
         } catch (IOException e) {

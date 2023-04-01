@@ -66,7 +66,7 @@ public class Server {
                          * out.println("[server]");
                          * }
                          * // ==========================================
-                         */
+                         */ // int [] to []
                         String[] word = request.split(" ");
                         System.out.println("[ANALYSING] >> count is: " + word[0]);
                         System.out.println("[ANALYSING] >> input is: " + word[1]);
@@ -74,8 +74,9 @@ public class Server {
                         out.println("[SERVER] >> Analysing is ok!");
                     }
                     out.println("[SERVER] >> Break connection! Bye Bye");
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
+                } catch (Exception ignored) {
+                    // throw new RuntimeException(e);
+                    // soc.close();
                 }
             }
         } catch (IOException e) {

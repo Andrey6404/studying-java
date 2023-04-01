@@ -28,20 +28,20 @@ public class App extends Application {
         // Stream<String> localStream = Stream.of(LocalStrings);
 
         TextField textField1 = new TextField();
-        TextField textField2 = new TextField();
+        // TextField textField2 = new TextField();
         Button button = new Button("Submit");
         button.setTranslateX(250);
         button.setTranslateY(75);
         // Creating labels
-        Label label1 = new Label("Name: ");
-        Label label2 = new Label("Email: ");
+        Label label1 = new Label("Input: ");
+        // Label label2 = new Label("Email: ");
         // Setting the message with read data
         Text text = new Text("");
         // Setting font to the label
         Font font = Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 10);
         text.setFont(font);
         text.setTranslateX(15);
-        text.setTranslateY(125);
+        text.setTranslateY(250);
         text.setFill(Color.BROWN);
         text.maxWidth(580);
         text.setWrappingWidth(580);
@@ -49,19 +49,19 @@ public class App extends Application {
         button.setOnAction(e -> {
             // Retrieving data
             String name = textField1.getText();
-            String email = textField2.getText();
+            // String email = textField2.getText();
             textField1.clear();
-            textField2.clear();
+            // textField2.clear();
+            SocOverGUI.SocketSending(name);
             text.setText(
                     // "Hello " + name + "Welcome to Tutorialspoint. From now, we will communicate
                     // with you at " + email);
                     SocOverGUI.datafromserver);
-            SocOverGUI.SocketSending(name);
         });
         // Adding labels for nodes
         HBox box = new HBox(5);
         box.setPadding(new Insets(25, 5, 5, 50));
-        box.getChildren().addAll(label1, textField1, label2, textField2);
+        box.getChildren().addAll(label1, textField1 /* ,label2 , textField2 */);
         Group root = new Group(box, button, text);
         // Setting the stage
         Scene scene = new Scene(root, 595, 150, Color.BEIGE);
