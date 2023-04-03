@@ -5,7 +5,8 @@ public class Converter {
     private String InputDimension;
     private String OutputDimension;
 
-    //заданная map для хранения отношения конвертируемой размерности и метра. Пример: 1км == 1000м, 1миля == 1609.344м и т.д.
+    // заданная map для хранения отношения конвертируемой размерности и метра.
+    // Пример: 1км == 1000м, 1миля == 1609.344м и т.д.
     private final static HashMap<String, Float> DimensionMap;
 
     static {
@@ -16,7 +17,9 @@ public class Converter {
         DimensionMap.put("km", 1000.0f);
         DimensionMap.put("yard", 0.9144f);
         DimensionMap.put("foot", 0.3048f);
+        DimensionMap.put("ft", 0.3048f);// reserving
         DimensionMap.put("inch", 0.0254f);
+        DimensionMap.put("in", 0.0254f);// reserving
         DimensionMap.put("mile", 1609.344f);
         DimensionMap.put("NM", 1852.0f); // NM = Nautical Mile
         System.out.println("static HashMap is created");
@@ -26,10 +29,9 @@ public class Converter {
     // величину - valueв(InputDimension размерности);
     // входную размерность - InputDimension;
     // размерность, в которую необходиом конвертировать - OutputDimension
-    public Converter(Float value, String InputDimension, String OutputDimension)
-    {
-        this.value           = value;
-        this.InputDimension  = InputDimension;
+    public Converter(Float value, String InputDimension, String OutputDimension) {
+        this.value = value;
+        this.InputDimension = InputDimension;
         this.OutputDimension = OutputDimension;
         System.out.println("Converter is  created");
     }
@@ -37,20 +39,31 @@ public class Converter {
     // функция конвертирует величину в необходимую нам размерность
     // данная функция возращает Float величину в OutputDimension размрности
     // если размерность не задана в DimensionMap, то функция вернет null
-    public Float Conversion()
-    {
+    public Float Conversion() {
+        System.out.println("In conversion method");
         Float Meterbase = DimensionMap.get(InputDimension);
-        if (Meterbase == null)
-        {
+        if (Meterbase == null) {
             return null;
         }
 
         Float OuputBase = DimensionMap.get(OutputDimension);
-        if (OuputBase == null)
-        {
+        if (OuputBase == null) {
             return null;
         }
 
-        return value * Meterbase * (1 / OuputBase);
+        return (float) (value * Meterbase * (1 / OuputBase));
+    }
+
+    public String MeasureCheck(String InpMes, String OutMes) {
+        String returnstring = "";
+        if (!DimensionMap.containsKey(InpMes)) {
+            returnstring = "ERROR IN InputDimension, use this keys:::";
+            returnstring += String.join("|", DimensionMap.keySet());
+        }
+        if (!DimensionMap.containsKey(OutMes)) {
+            returnstring = "ERROR IN OutputDimension, use this keys:::";
+            returnstring += String.join("|", DimensionMap.keySet());
+        }
+        return returnstring;
     }
 }
