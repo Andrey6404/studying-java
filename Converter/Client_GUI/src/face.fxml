@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="193.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+   <children>
+      <TextField fx:id="inputspase" layoutX="29.0" layoutY="97.0" prefHeight="25.0" prefWidth="111.0" />
+      <Text layoutX="228.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="This app converting length " />
+      <Text layoutX="48.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="set float value" />
+      <ComboBox fx:id="inmeasure" layoutX="152.0" layoutY="97.0" prefHeight="25.0" prefWidth="92.0" promptText="from" />
+      <Text layoutX="160.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="input measure" />
+      <ComboBox fx:id="outmeasure" layoutX="266.0" layoutY="97.0" prefHeight="25.0" prefWidth="92.0" promptText="to" />
+      <Button fx:id="sendingbutton" layoutX="373.0" layoutY="97.0" mnemonicParsing="false" onAction="#send" text="Convert" />
+      <Text layoutX="270.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="output measure" />
+      <TextField fx:id="outputvalue" disable="true" editable="false" layoutX="442.0" layoutY="97.0" prefHeight="25.0" prefWidth="135.0" />
+      <Text layoutX="473.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="output value" />
+      <TextArea fx:id="serverdataspase" disable="true" editable="false" layoutX="22.0" layoutY="142.0" prefHeight="42.0" prefWidth="558.0" />
+   </children>
+</Pane>

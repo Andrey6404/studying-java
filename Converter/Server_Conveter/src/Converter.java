@@ -33,14 +33,25 @@ public class Converter {
         this.value = value;
         this.InputDimension = InputDimension;
         this.OutputDimension = OutputDimension;
-        System.out.println("Converter is  created");
+        System.out.println("[CONVERTER] :: FULL CONSTUCTOR");
+    }
+
+    public Converter() {
+        System.out.println("[CONVERTER] :: EMPTY CONSTUCTOR");
+    }// пустой конструктор для создания объекта до получения значений
+
+    public void setData(Float value, String InputDimension, String OutputDimension) {
+        this.value = value;
+        this.InputDimension = InputDimension;
+        this.OutputDimension = OutputDimension;
+        System.out.println("[CONVERTER] :: SETTER DATA");
     }
 
     // функция конвертирует величину в необходимую нам размерность
     // данная функция возращает Float величину в OutputDimension размрности
     // если размерность не задана в DimensionMap, то функция вернет null
     public Float Conversion() {
-        System.out.println("In conversion method");
+        System.out.println("[CONVERTER] :: IN PROGRESS");
         Float Meterbase = DimensionMap.get(InputDimension);
         if (Meterbase == null) {
             return null;
@@ -65,5 +76,9 @@ public class Converter {
             returnstring += String.join("|", DimensionMap.keySet());
         }
         return returnstring;
+    }
+
+    public String pushMeasures() {
+        return String.join("/", DimensionMap.keySet());
     }
 }

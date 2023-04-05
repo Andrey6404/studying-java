@@ -1,0 +1,4 @@
+javac -d ../out/cmd Server.java
+javac -d [dir] file.java - создание class файла
+
+java -classpath file - интерпретатор байткода
