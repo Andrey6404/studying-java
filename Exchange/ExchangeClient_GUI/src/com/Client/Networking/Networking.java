@@ -55,7 +55,8 @@ public class Networking {
 
                         if (tmp[0] == "-b")
                         {
-
+                            //double currentDeposit = tmp[1];
+                            //int currentStockCounter = tmp[2];
                         }
 
                         if (tmp[0] == "-s")
