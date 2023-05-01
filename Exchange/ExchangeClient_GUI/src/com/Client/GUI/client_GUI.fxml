@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="388.0" prefWidth="698.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Client.GUI.Client_Controller">
+   <children>
+      <LineChart fx:id="stock_chart" prefHeight="346.0" prefWidth="698.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </LineChart>
+      <Button fx:id="buy_button" layoutX="287.0" layoutY="343.0" mnemonicParsing="false" onAction="#buy_processing" prefHeight="26.0" prefWidth="52.0" text="Buy" />
+      <Button fx:id="sell_button" layoutX="357.0" layoutY="343.0" mnemonicParsing="false" onAction="#sell_processing" prefHeight="26.0" prefWidth="52.0" text="Sell" />
+      <TextArea fx:id="deposit" layoutX="435.0" layoutY="337.0" prefHeight="19.0" prefWidth="68.0" />
+   </children>
+</AnchorPane>
