@@ -1,26 +1,86 @@
 package com.Server;
 
+import com.Portfolio.Portfolio;
+import com.StockPackage.Stock;
+import com.StockPackage.StockPriceGenerator;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ClientHandler implements Runnable {
     static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
     private Socket socket;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
-    private String clientUsername;
+
+    private int ClientID = 0;
+    private static int IDcounter = 0;
+
+
+    // все последующие переменные должны относится к классу биржи
+    // пока данные лежат к лассе ClientHandler. небходимо дописать для них отдельный класс Exchange (класс биржи)
+    private Portfolio portfolio;
+    private static Stock stock;
+    // ----------------------------------------------------- //
+
+    // следующие переменные используются для реализации логики генерации цены акции и ее отправлению всем подключенным клиентам
+    static Timer timer;
+    static TimerTask timerTask;
+    private static long currentTick = 0;
+    // ----------------------------------------------------- //
+
+    // реализация отправки новой цены акции каждые 2 сек
+    // идея - реализовать поток, общий для всех объектов класс ClientHandler, для отправления новой цены акции каждому клиенту
+    // через определенныйпромежуток времени. Подумао, что это можно реазизовать через статические Timer and TimerTask,
+    // т.к. они одинаковые для всех объектов этого класса
+    // не проверял работу. Не уверен, что сработает.
+    static {
+        stock = new Stock("stock1", 1000, 0.01);
+
+        timer = new Timer();
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                currentTick++;
+                double newPrice = stock.GenerateNewPrice();
+                broadcastMessageToAllConnectedClients("-c" + " " + currentTick + " " + newPrice);
+            }
+        };
+
+        timer.scheduleAtFixedRate(timerTask, 0, 2000);
+    }
+    public static void broadcastMessageToAllConnectedClients(String messageToSend) {
+        for (ClientHandler clientHandler : clientHandlers) {
+            try {
+                clientHandler.bufferedWriter.write(messageToSend);
+                clientHandler.bufferedWriter.newLine();
+                clientHandler.bufferedWriter.flush();
+            } catch (IOException e) {
+                clientHandler.closeEverything(clientHandler.socket, clientHandler.bufferedReader, clientHandler.bufferedWriter);
+            }
+        }
+    }
 
     public ClientHandler(Socket socket) {
+        // очень плохая реализация (все, что связано с ID), т.к. при удалении не сбрасывается счетчик IDcounter
+        ClientID = IDcounter;
+        IDcounter++;
+
         try {
             this.socket = socket;
             this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            this.clientUsername = bufferedReader.readLine();
+
             clientHandlers.add(this);
-            broadcastMessage("SERVER " + clientUsername + " has entered the chat!");
+
         } catch (IOException e) {
             closeEverything(socket, bufferedReader, bufferedWriter);
+
+            // возвращаем значение IDcounter, если объект ClientHandler не был сооздан
+            IDcounter--;
         }
     }
 
@@ -31,31 +91,67 @@ public class ClientHandler implements Runnable {
         while (socket.isConnected()) {
             try {
                 messageFromClient = bufferedReader.readLine();
-                broadcastMessage(messageFromClient);
+                String answerToClient = parseMessageFromClient(messageFromClient);
+                sendMessageToClient(answerToClient);
             } catch (IOException e) {
                 closeEverything(socket, bufferedReader, bufferedWriter);
+                System.out.println("Error reading message from client. ClientID=" + this.ClientID);
                 break;
             }
         }
     }
 
-    public void broadcastMessage(String messageToSend) {
-        for (ClientHandler clientHandler : clientHandlers) {
+    public String parseMessageFromClient(String messageFromClient) {
+        String[]  parsedMessage;
+        parsedMessage = messageFromClient.split(" ");
+        if (parsedMessage[0] == "-P") {
+            portfolio = new Portfolio(Double.parseDouble(parsedMessage[1]), Integer.parseInt(parsedMessage[2]));
+            System.out.println("Server accepted new client's portfolio");
+            return "-P" + " " + "accepted" + " " + "reservedInfo";
+        }
+        if (parsedMessage[0] == "-b") {
+            clientBuySellStock("-b");
+            return "-b" + " " + this.portfolio.getDeposit() + " " + this.portfolio.getStockCount();
+        }
+        if (parsedMessage[0] == "-s") {
+            clientBuySellStock("-s");
+            return "-s" + " " + this.portfolio.getDeposit() + " " + this.portfolio.getStockCount();
+        }
+        return "unknown operation";
+    }
+
+    // функция реализующая логику покупки и продажжи одной акции
+    public void clientBuySellStock(String flag) {
+        // не реализовано изменнение количества покупаемых и продаваемых акций. Пока "захардкожено" 1
+        int stockAmount = 1;
+
+        double transactionAmount =  stock.getCurrentPrice() * stockAmount;
+
+        if (flag == "-b") {
+            this.portfolio.setDeposit(this.portfolio.getDeposit() - transactionAmount);
+            this.portfolio.setStockCount(this.portfolio.getStockCount() + stockAmount);
+            return;
+        }
+        if (flag == "-s") {
+            this.portfolio.setDeposit(this.portfolio.getDeposit() + transactionAmount);
+            this.portfolio.setStockCount(this.portfolio.getStockCount() - stockAmount);
+            return;
+        }
+    }
+
+    public void sendMessageToClient(String messageToSend) {
             try {
-                if (!clientHandler.clientUsername.equals(clientUsername)) {
-                    clientHandler.bufferedWriter.write(messageToSend);
-                    clientHandler.bufferedWriter.newLine();
-                    clientHandler.bufferedWriter.flush();
-                }
+                this.bufferedWriter.write(messageToSend);
+                this.bufferedWriter.newLine();
+                this.bufferedWriter.flush();
             } catch (IOException e) {
+                System.out.println("Error sending message to client. ClientID=" + this.ClientID);
                 closeEverything(socket, bufferedReader, bufferedWriter);
             }
-        }
     }
 
     public void removeClientHandler() {
         clientHandlers.remove(this);
-        broadcastMessage("SERVER: " + clientUsername + " has left the chat!");
     }
 
     public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
@@ -74,7 +170,5 @@ public class ClientHandler implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
 }

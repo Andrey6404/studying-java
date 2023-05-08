@@ -8,8 +8,6 @@ import java.net.Socket;
 
 public class Server {
     private ServerSocket serverSocket;
-    private Stock stock;
-
 
     public Server(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
