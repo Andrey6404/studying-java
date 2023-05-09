@@ -20,6 +20,8 @@ public class Client_App extends Application {
             root = loader.load();
             controller = loader.getController();
             stage.setScene(new Scene(root));
+            //Scene scene = new Scene(controller.getStock_chart(), 500, 500);
+            //stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

@@ -3,6 +3,7 @@ package com.Client.Networking;
 import com.Client.GUI.Client_Controller;
 import com.Client.Portfolio.Portfolio;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
 import java.io.*;
@@ -37,7 +38,7 @@ public class Client {
         }
     }
 
-    public void receiveMessageFromServer(String string, Portfolio portfolio, LineChart<?, ?> stock_chart, XYChart.Series<Number, Number> series) {
+    public void receiveMessageFromServer(String string, Portfolio portfolio, LineChart<Number, Number> stock_chart, XYChart.Series<Number, Number> series) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -47,7 +48,7 @@ public class Client {
 
                         // переменная для хранения результата от сервера в виде, подготовленном для обработки(строку от сервера парсим, отделяя строки пробелами)
                         String[] parsedData = new String[3];
-                        parsedData = messageFromServer.split(" ");
+                           parsedData = messageFromServer.split(" ");
 
                         // вызов статических функций класса контроллра в зависимости от данных переданных сервером
                         if (parsedData[0] == "-b") {

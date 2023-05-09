@@ -38,25 +38,22 @@ public class Client_Controller implements Initializable {
 
     @FXML
     private LineChart<Number, Number> stock_chart;
-    private XYChart.Series series;
+
+//    public LineChart<Number, Number> getStock_chart()
+//    {
+//        return stock_chart;
+//    }
 
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // создание объека для хранения иформации о состоянии счета клиента(простейшая структура, как в C).
+        portfolio = new Portfolio(1000.0, 0);
 
-//        // не понял зачем
-//        assert buy_button != null : "fx:id=\"buy_button\" was not injected: check your FXML file 'client_GUI.fxml'.";
-//        assert deposit != null : "fx:id=\"deposit\" was not injected: check your FXML file 'client_GUI.fxml'.";
-//        assert sell_button != null : "fx:id=\"sell_button\" was not injected: check your FXML file 'client_GUI.fxml'.";
-//        assert stock_chart != null : "fx:id=\"stock_chart\" was not injected: check your FXML file 'client_GUI.fxml'.";
-//        // до этого момента
-
-        // создания объека для хранения иформации о состоянии счета клиента(простейшая структура, как в C).
-        portfolio = new Portfolio(1000, 0);
-
-        NumberAxis xAxis = new NumberAxis();
-        NumberAxis yAxis = new NumberAxis();
-        stock_chart = new LineChart<Number, Number>(xAxis, yAxis);
-        series = new XYChart.Series();
+        //NumberAxis xAxis = new NumberAxis();
+        //NumberAxis yAxis = new NumberAxis();
+        //stock_chart = new LineChart<Number, Number>(xAxis, yAxis);
+        XYChart.Series series = new XYChart.Series();
+        series.setName("stock1");
 
         stock_chart.getData().add(series);
 
@@ -72,7 +69,6 @@ public class Client_Controller implements Initializable {
         }
 
         client.receiveMessageFromServer(string, portfolio, stock_chart, series);
-
     }
 
     @FXML
@@ -106,11 +102,14 @@ public class Client_Controller implements Initializable {
         });
     }
 
+
+
     public static void updateChartData(String[] parsedData, LineChart<?, ?> chart, XYChart.Series DataSeries) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                DataSeries.getData().add(new XYChart.Data<Integer, Double>(Integer.parseInt(parsedData[1]), Double.parseDouble(parsedData[2])));
+                DataSeries.getData().add(new XYChart.Data((parsedData[1]), Double.parseDouble(parsedData[2])));
+
                 System.out.println("chart has been updated");
             }
         });
