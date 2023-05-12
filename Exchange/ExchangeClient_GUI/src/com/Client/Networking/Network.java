@@ -21,7 +21,7 @@ public class Client {
             this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
         } catch (IOException e) {
             System.out.println("Error creating client");
-            closeEverything(socket, bufferedReader, bufferedWriter);
+            closeEverything(/*socket, bufferedReader, bufferedWriter*/);
             e.printStackTrace();
         }
     }
@@ -34,7 +34,7 @@ public class Client {
         } catch (IOException e) {
             System.out.println("Error sending message to server");
             e.printStackTrace();
-            closeEverything(socket, bufferedReader, bufferedWriter);
+            closeEverything(/*socket, bufferedReader, bufferedWriter*/);
         }
     }
 
@@ -67,24 +67,28 @@ public class Client {
                     } catch (IOException e) {
                         e.printStackTrace();
                         System.out.println("Error receiving message from the client");
-                        closeEverything(socket, bufferedReader, bufferedWriter);
+                        closeEverything(/*socket, bufferedReader, bufferedWriter*/);
+                        //Thread.currentThread().interrupt();
                         break;
                     }
                 }
+
             }
+
         }).start();
     }
 
-    public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
+    public void closeEverything(/*Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter*/) {
         try {
-            if (bufferedReader != null) {
-                bufferedReader.close();
+            //receiveMessageFromServer.close();
+            if (this.bufferedReader != null) {
+                this.bufferedReader.close();
             }
-            if (bufferedWriter != null) {
-                bufferedWriter.close();
+            if (this.bufferedWriter != null) {
+                this.bufferedWriter.close();
             }
-            if (socket != null) {
-                socket.close();
+            if (this.socket != null) {
+                this.socket.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
