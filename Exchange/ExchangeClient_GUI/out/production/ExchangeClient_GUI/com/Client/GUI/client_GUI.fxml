@@ -7,10 +7,9 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="388.0" prefWidth="698.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Client.GUI.Client_Controller">
    <children>
-      <LineChart fx:id="stock_chart" prefHeight="346.0" prefWidth="698.0">
+      <LineChart fx:id="stock_chart" prefHeight="330.0" prefWidth="698.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" />
         </xAxis>

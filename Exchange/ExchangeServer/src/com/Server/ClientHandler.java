@@ -17,6 +17,7 @@ public class ClientHandler implements Runnable {
     private BufferedWriter bufferedWriter;
 
     private int ClientID = 0;
+    private int NullRequestCounter = 0;
     private static int IDcounter = 0;
 
 
@@ -53,6 +54,7 @@ public class ClientHandler implements Runnable {
         timer.scheduleAtFixedRate(timerTask, 0, 2000);
     }
     public static void broadcastMessageToAllConnectedClients(String messageToSend) {
+        System.out.println("---Connecled---"+clientHandlers.size()+" users");
         for (ClientHandler clientHandler : clientHandlers) {
             try {
                 clientHandler.bufferedWriter.write(messageToSend);
@@ -66,8 +68,9 @@ public class ClientHandler implements Runnable {
 
     public ClientHandler(Socket socket) {
         // очень плохая реализация (все, что связано с ID), т.к. при удалении не сбрасывается счетчик IDcounter
-        ClientID = IDcounter;
-        IDcounter++;
+        ClientID = this.hashCode();//IDcounter;
+        System.out.println("new client ID = "+ClientID);
+        //IDcounter++;
 
         try {
             this.socket = socket;
@@ -75,48 +78,57 @@ public class ClientHandler implements Runnable {
             this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             clientHandlers.add(this);
+            System.out.println(ClientID+" == try ok!");
 
         } catch (IOException e) {
             closeEverything(socket, bufferedReader, bufferedWriter);
 
             // возвращаем значение IDcounter, если объект ClientHandler не был сооздан
-            IDcounter--;
+            //IDcounter--;
         }
     }
 
     @Override
     public void run() {
-        String messageFromClient;
+        String messageFromClient="";
 
-        while (socket.isConnected()) {
+        while (socket.isConnected()&&!(NullRequestCounter>=5)&&(clientHandlers.size()!=0))   {
             try {
                 messageFromClient = bufferedReader.readLine();
+                if (messageFromClient==null) {NullRequestCounter++; System.out.println("Strike "+NullRequestCounter);/*Thread.sleep(500);*/continue;}
                 String answerToClient = parseMessageFromClient(messageFromClient);
                 sendMessageToClient(answerToClient);
+                NullRequestCounter = 0;
             } catch (IOException e) {
-                closeEverything(socket, bufferedReader, bufferedWriter);
+                removeClientHandler();
+                //closeEverything(socket, bufferedReader, bufferedWriter);
                 System.out.println("Error reading message from client. ClientID=" + this.ClientID);
-                break;
             }
         }
+        closeEverything(socket, bufferedReader, bufferedWriter);
+        System.out.println(ClientID+" == is closing");
+        removeClientHandler();
     }
 
     public String parseMessageFromClient(String messageFromClient) {
         String[]  parsedMessage;
         parsedMessage = messageFromClient.split(" ");
-        if (parsedMessage[0] == "-P") {
+        if (parsedMessage[0].equals("-P")) {
             portfolio = new Portfolio(Double.parseDouble(parsedMessage[1]), Integer.parseInt(parsedMessage[2]));
             System.out.println("Server accepted new client's portfolio");
             return "-P" + " " + "accepted" + " " + "reservedInfo";
         }
-        if (parsedMessage[0] == "-b") {
+        if (parsedMessage[0].equals("-b")) {
             clientBuySellStock("-b");
+            System.out.println("Server accepted bue signal");
             return "-b" + " " + this.portfolio.getDeposit() + " " + this.portfolio.getStockCount();
         }
-        if (parsedMessage[0] == "-s") {
+        if (parsedMessage[0].equals("-s")) {
             clientBuySellStock("-s");
+            System.out.println("Server accepted sell signal");
             return "-s" + " " + this.portfolio.getDeposit() + " " + this.portfolio.getStockCount();
         }
+        System.out.println("Unknown message from client");
         return "unknown operation";
     }
 
@@ -127,12 +139,12 @@ public class ClientHandler implements Runnable {
 
         double transactionAmount =  stock.getCurrentPrice() * stockAmount;
 
-        if (flag == "-b") {
+        if (flag.equals("-b")) {
             this.portfolio.setDeposit(this.portfolio.getDeposit() - transactionAmount);
             this.portfolio.setStockCount(this.portfolio.getStockCount() + stockAmount);
             return;
         }
-        if (flag == "-s") {
+        if (flag.equals("-s")) {
             this.portfolio.setDeposit(this.portfolio.getDeposit() + transactionAmount);
             this.portfolio.setStockCount(this.portfolio.getStockCount() - stockAmount);
             return;

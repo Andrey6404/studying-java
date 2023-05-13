@@ -1,14 +1,12 @@
 package com.Client.GUI;
 
-import com.Client.Networking.Client;
+import com.Client.Networking.Network;
 import com.Client.Portfolio.Portfolio;
-import com.sun.media.jfxmedia.events.PlayerStateEvent;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -16,12 +14,11 @@ import javafx.scene.control.TextArea;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Client_Controller implements Initializable {
 
-    private Client client;
+    private Network network;
     private Portfolio portfolio;
     private double currentStockProice = 0;
 
@@ -48,38 +45,32 @@ public class Client_Controller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // создание объека для хранения иформации о состоянии счета клиента(простейшая структура, как в C).
         portfolio = new Portfolio(1000.0, 0);
-
         //NumberAxis xAxis = new NumberAxis();
         //NumberAxis yAxis = new NumberAxis();
         //stock_chart = new LineChart<Number, Number>(xAxis, yAxis);
         XYChart.Series series = new XYChart.Series();
         series.setName("stock1");
-
         stock_chart.getData().add(series);
-
         try {
-            client = new Client(new Socket("localhost", 1234));
-
+            network = new Network(new Socket("localhost", 1234));
             // идея - прислать данные о состоянии счета клиента серверу сразу же после подключения клиента к серверу
-            client.sendMessageToServer("-P" + " " + portfolio.getDeposit() + " " + portfolio.getStockCount());
-
+            network.sendMessageToServer("-P" + " " + portfolio.getDeposit() + " " + portfolio.getStockCount());
         } catch (IOException e) {
             System.out.println("Error in creating Client class");
             //e.printStackTrace();
         }
-
-        client.receiveMessageFromServer(string, portfolio, stock_chart, series);
+        network.receiveMessageFromServer(string, portfolio, stock_chart, series);
     }
 
     @FXML
     void buy_processing(ActionEvent event) {
-        client.sendMessageToServer("-b" + " " + currentStockProice);
+        network.sendMessageToServer("-b" + " " + portfolio.getDeposit() + " " + portfolio.getStockCount());
         System.out.println("buy signal was sent");
     }
 
     @FXML
     void sell_processing(ActionEvent event) {
-        client.sendMessageToServer("-s" + " " + currentStockProice);
+        network.sendMessageToServer("-s" + " " + portfolio.getDeposit() + " " + portfolio.getStockCount());
         System.out.println("sell signal was sent");
     }
 
@@ -89,10 +80,10 @@ public class Client_Controller implements Initializable {
             public void run() {
                 double DepositTmp = portfolio.getDeposit();
                 int StockCountTmp = portfolio.getStockCount();
-                if (flag == "-s") {
+                if (flag.equals("-s")) {
                     portfolio.setDeposit(DepositTmp + Double.parseDouble(parsedData[1]));
                     portfolio.setStockCount(StockCountTmp - Integer.parseInt(parsedData[2]));
-                } else if (flag == "-b") {
+                } else if (flag.equals("-b")) {
                     portfolio.setDeposit(DepositTmp - Double.parseDouble(parsedData[1]));
                     portfolio.setStockCount(StockCountTmp + Integer.parseInt(parsedData[2]));
                 } else {
@@ -113,6 +104,9 @@ public class Client_Controller implements Initializable {
                 System.out.println("chart has been updated");
             }
         });
+    }
+    public void Controller_stop(){
+        network.closeEverything();
     }
 
 }

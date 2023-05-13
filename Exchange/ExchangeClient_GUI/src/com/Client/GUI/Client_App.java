@@ -11,10 +11,12 @@ import java.io.IOException;
 public class Client_App extends Application {
 
     private Client_Controller controller;
+    //private Fresh_controller controller;
 
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("client_GUI.fxml")); // нельзя опустошать загрузчик
+        //FXMLLoader loader = new FXMLLoader(getClass().getResource("work_interface.fxml"));
         Parent root;
         try {
             root = loader.load();
@@ -31,6 +33,11 @@ public class Client_App extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+
+    public void stop() {
+        System.out.println("Detected close window button");
+        controller.Controller_stop();
     }
 
 

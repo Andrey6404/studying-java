@@ -3,18 +3,19 @@ package com.Client.Networking;
 import com.Client.GUI.Client_Controller;
 import com.Client.Portfolio.Portfolio;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
 import java.io.*;
 import java.net.Socket;
 
-public class Client {
+public class Network {
     private Socket socket;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
 
-    public Client(Socket socket) {
+    private static boolean flowallow = true; //флаг остановки потока чтения с сервера
+
+    public Network(Socket socket) {
         try {
             this.socket = socket;
             this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -42,7 +43,7 @@ public class Client {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (socket.isConnected()) {
+                while (socket.isConnected()&&flowallow) {
                     try {
                         String messageFromServer = bufferedReader.readLine();
 
@@ -51,13 +52,13 @@ public class Client {
                            parsedData = messageFromServer.split(" ");
 
                         // вызов статических функций класса контроллра в зависимости от данных переданных сервером
-                        if (parsedData[0] == "-b") {
+                        if (parsedData[0].equals("-b")) {
                             Client_Controller.updatePortfolioInfo(parsedData, portfolio, "-b");
                         }
-                        if (parsedData[0] == "-s") {
+                        if (parsedData[0].equals("-s")) {
                             Client_Controller.updatePortfolioInfo(parsedData, portfolio, "-s");
                         }
-                        if (parsedData[0] == "-P") {
+                        if (parsedData[0].equals("-P")) {
                             System.out.println("Server accepted new Portfolio");
                             System.out.println("Message from server:" + parsedData[2]);
                         }
@@ -72,6 +73,8 @@ public class Client {
                         break;
                     }
                 }
+                if(!flowallow) System.out.println("flag is down");
+                else System.out.println("Thread stopped with error");
 
             }
 
@@ -80,6 +83,7 @@ public class Client {
 
     public void closeEverything(/*Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter*/) {
         try {
+            flowallow = false;
             //receiveMessageFromServer.close();
             if (this.bufferedReader != null) {
                 this.bufferedReader.close();
