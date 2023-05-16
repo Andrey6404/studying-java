@@ -92,7 +92,8 @@ public class ClientHandler implements Runnable {
     public void run() {
         String messageFromClient="";
 
-        while (socket.isConnected()&&!(NullRequestCounter>=5)&&(clientHandlers.size()!=0))   {
+        while (socket.isConnected()&&!(NullRequestCounter>=5)){
+            System.out.println(clientHandlers.size());
             try {
                 messageFromClient = bufferedReader.readLine();
                 if (messageFromClient==null) {NullRequestCounter++; System.out.println("Strike "+NullRequestCounter);/*Thread.sleep(500);*/continue;}
@@ -101,6 +102,7 @@ public class ClientHandler implements Runnable {
                 NullRequestCounter = 0;
             } catch (IOException e) {
                 removeClientHandler();
+                NullRequestCounter++;
                 //closeEverything(socket, bufferedReader, bufferedWriter);
                 System.out.println("Error reading message from client. ClientID=" + this.ClientID);
             }

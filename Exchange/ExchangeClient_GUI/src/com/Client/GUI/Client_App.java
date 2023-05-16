@@ -10,13 +10,13 @@ import java.io.IOException;
 
 public class Client_App extends Application {
 
-    private Client_Controller controller;
-    //private Fresh_controller controller;
+    //private Client_Controller controller;
+    private Fresh_controller controller;
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("client_GUI.fxml")); // нельзя опустошать загрузчик
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("work_interface.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("work_interface.fxml")); // нельзя опустошать загрузчик
+        //FXMLLoader loader = new FXMLLoader(getClass().getResource("client_GUI.fxml"));
         Parent root;
         try {
             root = loader.load();

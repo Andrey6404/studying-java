@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Client.GUI.Client_Controller">
+<AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Client.GUI.Fresh_controller"><!--change to Client_Controller if dont work-->
    <children>
       <LineChart fx:id="stock_chart" layoutX="31.0" layoutY="264.0" prefHeight="332.0" prefWidth="848.0">
         <xAxis>
@@ -23,8 +23,8 @@
           <NumberAxis side="LEFT" />
         </yAxis>
       </LineChart>
-      <Button fx:id="buy_button" layoutX="549.0" layoutY="180.0" mnemonicParsing="false" onAction="#Buy_deal" prefHeight="26.0" prefWidth="93.0" text="Купить" />
-      <Button fx:id="sell_button" layoutX="549.0" layoutY="225.0" mnemonicParsing="false" onAction="#Sell_deal" prefHeight="26.0" prefWidth="93.0" text="Продать" />
+      <Button fx:id="Buy_button" disable="true" layoutX="549.0" layoutY="180.0" mnemonicParsing="false" onAction="#Buy_deal" prefHeight="26.0" prefWidth="93.0" text="Купить" />
+      <Button fx:id="Sell_button" disable="true" layoutX="549.0" layoutY="225.0" mnemonicParsing="false" onAction="#Sell_deal" prefHeight="26.0" prefWidth="93.0" text="Продать" />
       <TextArea fx:id="Buy_prise" disable="true" editable="false" layoutX="232.0" layoutY="174.0" prefHeight="26.0" prefWidth="131.0" />
       <Accordion layoutX="67.0" layoutY="48.0" />
       <Button fx:id="Ticket_button" layoutX="328.0" layoutY="596.0" mnemonicParsing="false" onAction="#Ticket_button_pushed" prefHeight="38.0" prefWidth="243.0" text="Обновить">
@@ -52,8 +52,8 @@
             <Font size="20.0" />
          </font>
       </Text>
-      <TextField fx:id="Buy_count" layoutX="383.0" layoutY="173.0" onInputMethodTextChanged="#Buy_text_edited" prefHeight="38.0" prefWidth="145.0" promptText="Введите количество" />
-      <TextField fx:id="Sell_count" layoutX="383.0" layoutY="219.0" onInputMethodTextChanged="#Sell_text_edited" prefHeight="37.0" prefWidth="145.0" promptText="Введите количество" />
+      <TextField fx:id="Buy_count" layoutX="383.0" layoutY="173.0" onKeyTyped="#Buy_text_edited" prefHeight="38.0" prefWidth="145.0" promptText="Введите количество" />
+      <TextField fx:id="Sell_count" layoutX="383.0" layoutY="219.0" onKeyTyped="#Sell_text_edited" prefHeight="37.0" prefWidth="145.0" promptText="Введите количество" />
       <TextArea fx:id="Buy_product" disable="true" editable="false" layoutX="662.0" layoutY="174.0" prefHeight="38.0" prefWidth="168.0" />
       <TextArea fx:id="Sell_product" disable="true" editable="false" layoutX="662.0" layoutY="219.0" prefHeight="38.0" prefWidth="168.0" />
       <TextArea fx:id="username" disable="true" editable="false" layoutX="747.0" layoutY="27.0" prefHeight="26.0" prefWidth="131.0" text="username" />
