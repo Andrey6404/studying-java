@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Converter/Client/Client.iml" filepath="$PROJECT_DIR$/Converter/Client/Client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Converter/Converter/Client/Client1.iml" filepath="$PROJECT_DIR$/Converter/Converter/Client/Client1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Converter/Client_GUI/Client_GUI.iml" filepath="$PROJECT_DIR$/Converter/Client_GUI/Client_GUI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exchange/ExchangeClient_GUI/ExchangeClient_GUI.iml" filepath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/ExchangeClient_GUI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exchange/ExchangeServer/ExchangeServer.iml" filepath="$PROJECT_DIR$/Exchange/ExchangeServer/ExchangeServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Converter/Converter/Server_Conveter/Server_Conveter.iml" filepath="$PROJECT_DIR$/Converter/Converter/Server_Conveter/Server_Conveter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Converter/Server_Conveter/Server_Conveter1.iml" filepath="$PROJECT_DIR$/Converter/Server_Conveter/Server_Conveter1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/studying-java.iml" filepath="$PROJECT_DIR$/.idea/studying-java.iml" />
+    </modules>
+  </component>
+</project>

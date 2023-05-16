@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="d8dd6def-f56c-4d9e-8ea9-ed67c6586751" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Converter/Client/Client.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Converter/Client_GUI/Client_GUI.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Converter/Converter/Client/Client1.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Converter/Converter/Server_Conveter/Server_Conveter.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Converter/Server_Conveter/Server_Conveter1.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/ExchangeClient_GUI.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/out/production/ExchangeClient_GUI/com/Client/GUI/Client_App.class" beforeDir="false" afterPath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/out/production/ExchangeClient_GUI/com/Client/GUI/Client_App.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/out/production/ExchangeClient_GUI/com/Client/GUI/Client_Controller$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/out/production/ExchangeClient_GUI/com/Client/GUI/Client_Controller$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/out/production/ExchangeClient_GUI/com/Client/GUI/Client_Controller$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/out/production/ExchangeClient_GUI/com/Client/GUI/Client_Controller$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/out/production/ExchangeClient_GUI/com/Client/GUI/Client_Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/out/production/ExchangeClient_GUI/com/Client/GUI/Client_Controller.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/out/production/ExchangeClient_GUI/com/Client/GUI/client_GUI.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/out/production/ExchangeClient_GUI/com/Client/GUI/client_GUI.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/out/production/ExchangeClient_GUI/com/Client/Networking/Client$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/out/production/ExchangeClient_GUI/com/Client/Networking/Client.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/out/production/ExchangeClient_GUI/com/Client/Portfolio/Portfolio.class" beforeDir="false" afterPath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/out/production/ExchangeClient_GUI/com/Client/Portfolio/Portfolio.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/src/com/Client/GUI/Client_App.java" beforeDir="false" afterPath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/src/com/Client/GUI/Client_App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/src/com/Client/GUI/Client_Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/src/com/Client/GUI/Client_Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/src/com/Client/GUI/client_GUI.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/src/com/Client/GUI/client_GUI.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/src/com/Client/Networking/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/Exchange/ExchangeClient_GUI/src/com/Client/Networking/Network.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeServer/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Exchange/ExchangeServer/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeServer/ExchangeServer.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeServer/out/production/ExchangeServer/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/Exchange/ExchangeServer/out/production/ExchangeServer/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeServer/out/production/ExchangeServer/com/Portfolio/Portfolio.class" beforeDir="false" afterPath="$PROJECT_DIR$/Exchange/ExchangeServer/out/production/ExchangeServer/com/Portfolio/Portfolio.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeServer/out/production/ExchangeServer/com/Server/ClientHandler$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Exchange/ExchangeServer/out/production/ExchangeServer/com/Server/ClientHandler$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeServer/out/production/ExchangeServer/com/Server/ClientHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/Exchange/ExchangeServer/out/production/ExchangeServer/com/Server/ClientHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeServer/out/production/ExchangeServer/com/Server/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/Exchange/ExchangeServer/out/production/ExchangeServer/com/Server/Server.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeServer/out/production/ExchangeServer/com/StockPackage/Stock.class" beforeDir="false" afterPath="$PROJECT_DIR$/Exchange/ExchangeServer/out/production/ExchangeServer/com/StockPackage/Stock.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeServer/out/production/ExchangeServer/com/StockPackage/StockPriceGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/Exchange/ExchangeServer/out/production/ExchangeServer/com/StockPackage/StockPriceGenerator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeServer/src/com/Server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Exchange/ExchangeServer/src/com/Server/ClientHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exchange/ExchangeServer/src/com/StockPackage/Stock.java" beforeDir="false" afterPath="$PROJECT_DIR$/Exchange/ExchangeServer/src/com/StockPackage/Stock.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2PhUhZXij6CHhE1ZV0WRNQNiyuN" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/Andrey/Documents/_Study/5gen/java/s2-market/v2-vova/studying-java/Exchange"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d8dd6def-f56c-4d9e-8ea9-ed67c6586751" name="Changes" comment="" />
+      <created>1683908926385</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1683908926385</updated>
+    </task>
+    <servers />
+  </component>
+</project>

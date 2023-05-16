@@ -56,6 +56,8 @@ public class Fresh_controller implements Initializable {
     private TextArea username;
     @FXML
     private TextArea wallet;
+    @FXML
+    private TextArea count;
     private Network network;
     private Portfolio portfolio;
     private boolean StupidFlagToAlive = true;
@@ -67,20 +69,14 @@ public class Fresh_controller implements Initializable {
         // создание объека для хранения иформации о состоянии счета клиента(простейшая структура, как в C).
         portfolio = new Portfolio(1000.0, 0);
         wallet.setText(String.valueOf(portfolio.getDeposit()));
+        count.setText(String.valueOf(portfolio.getStockCount()));
         //NumberAxis xAxis = new NumberAxis();
         //NumberAxis yAxis = new NumberAxis();
         //stock_chart = new LineChart<Number, Number>(xAxis, yAxis);
         series = new XYChart.Series();
         series.setName("stock1");
         stock_chart.getData().add(series);
-        try {
-            network = new Network(new Socket("localhost", 1234),this);
-            Thread nettread = new Thread(network);
-            nettread.start();
-            network.sendMessageToServer("-P" + " " + portfolio.getDeposit() + " " + portfolio.getStockCount());
-        } catch (IOException e) {
-            System.out.println("CONTROLLER initialize:: network is down");
-        }
+        TryConnectToServ();
 
 
         // идея - прислать данные о состоянии счета клиента серверу сразу же после подключения клиента к серверу
@@ -110,20 +106,29 @@ public class Fresh_controller implements Initializable {
                                 updateChartData(word[1],Double.parseDouble(word[2]));
                                 Buy_prise.setText(word[2]);
                                 Sell_prise.setText(word[2]);
-                                if(!Buy_count.getText().equals("")) Buy_product.setText(String.valueOf(Double.parseDouble(Buy_count.getText())*Double.parseDouble(Buy_prise.getText())));
-                                else Buy_product.clear();
-                                if(!Sell_count.getText().equals("")) Sell_product.setText(String.valueOf(Double.parseDouble(Sell_count.getText())*Double.parseDouble(Sell_prise.getText())));
-                                else Sell_product.clear();
+                                try {
+                                    if (!Buy_count.getText().equals(""))
+                                        Buy_product.setText(String.valueOf(Double.parseDouble(Buy_count.getText()) * Double.parseDouble(Buy_prise.getText())));
+                                    else Buy_product.clear();
+                                    if (!Sell_count.getText().equals(""))
+                                        Sell_product.setText(String.valueOf(Double.parseDouble(Sell_count.getText()) * Double.parseDouble(Sell_prise.getText())));
+                                    else Sell_product.clear();
+                                }catch (Exception e){
+                                    Buy_product.clear();
+                                    Sell_product.clear();
+                                }
                                 break;
                             case "-b":
                                 portfolio.setDeposit(Double.parseDouble(word[1]));
                                 portfolio.setStockCount(Integer.parseInt(word[2]));
                                 wallet.setText(String.valueOf(portfolio.getDeposit()));
+                                count.setText(String.valueOf(portfolio.getStockCount()));
                                 break;
                             case "-s":
                                 portfolio.setDeposit(Double.parseDouble(word[1]));
                                 portfolio.setStockCount(Integer.parseInt(word[2]));
                                 wallet.setText(String.valueOf(portfolio.getDeposit()));
+                                count.setText(String.valueOf(portfolio.getStockCount()));
                                 break;
                             case "-P":
                                 System.out.println("ThreadRead:: server return portfolio");
@@ -137,15 +142,17 @@ public class Fresh_controller implements Initializable {
 //                }
 //            });//start;
 //        }
-//    private void TryConnectToServ(){
-//        while(!NetworkConnected){
-//            try {
-//
-//                NetworkConnected = true;
-//            } catch (IOException e) {
-//                System.out.println("Error in creating Client class");
-//                //e.printStackTrace();
-//            }
+    private void TryConnectToServ() {
+        try {
+            network = new Network(new Socket("localhost", 1234), this);
+            Thread nettread = new Thread(network);
+            nettread.start();
+            network.sendMessageToServer("-P" + " " + portfolio.getDeposit() + " " + portfolio.getStockCount());
+            return;
+        } catch (IOException e) {
+            System.out.println("CONTROLLER initialize:: network is down");
+        }
+    }
 //        }
 //    }
 
@@ -173,7 +180,8 @@ public class Fresh_controller implements Initializable {
     @FXML
     void Buy_text_edited(KeyEvent event) {
         //Buy_prise.setText(stock_chart.);
-        Buy_product.clear();
+        //Buy_product.clear();
+        Buy_button.setDisable(true);
         if (!checkIsDigit(Buy_prise.getText(),"NND")) {
             System.out.println("Buy_text_edited:: Prise error");
             Buy_button.setDisable(true);
@@ -204,6 +212,7 @@ public class Fresh_controller implements Initializable {
 
     @FXML
     void Sell_text_edited(KeyEvent event) {
+        Sell_button.setDisable(true);
         if (!checkIsDigit(Sell_prise.getText(),"NND")) {
             System.out.println("Sell_text_edited:: Prise error");
             Sell_button.setDisable(true);
@@ -214,9 +223,17 @@ public class Fresh_controller implements Initializable {
             Sell_button.setDisable(true);
             return;
         }
-        Sell_button.setDisable(false);
-        System.out.println("Sell_text_edited:: Correct data, allow");
-        Sell_product.setText(Double.parseDouble(Sell_prise.getText())*Double.parseDouble(Sell_count.getText())+" $");
+        if(portfolio.getStockCount()<Double.parseDouble(Sell_count.getText())){
+            System.out.println(portfolio.getStockCount()+ "  VS  "+Sell_count.getText());
+            System.out.println("Sell_text_edited:: Client is poor to this operation");
+            Buy_button.setDisable(true);
+
+        }else {
+            System.out.println(portfolio.getStockCount()+ "  VS  "+Sell_count.getText());
+            Sell_button.setDisable(false);
+            System.out.println("Sell_text_edited:: Correct data, allow");
+            Sell_product.setText(Double.parseDouble(Sell_prise.getText()) * Double.parseDouble(Sell_count.getText()) + " $");
+        }
     }
 
     @FXML
