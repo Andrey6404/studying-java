@@ -90,7 +90,7 @@ public class Network implements Runnable{
         while (socket.isConnected()&&flowallow) {
             try {
                 servermessage = bufferedReader.readLine();
-                System.out.println("RUN TRAY:: new message::"+servermessage);
+                //System.out.println("RUN TRAY:: new message::"+servermessage);
                 Inbox=true;
                 exsemplar.reciver(servermessage.split(" "));
                 // переменная для хранения результата от сервера в виде, подготовленном для обработки(строку от сервера парсим, отделяя строки пробелами)

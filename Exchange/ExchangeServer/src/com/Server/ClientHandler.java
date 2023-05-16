@@ -39,7 +39,7 @@ public class ClientHandler implements Runnable {
     // т.к. они одинаковые для всех объектов этого класса
     // не проверял работу. Не уверен, что сработает.
     static {
-        stock = new Stock("stock1", 1000, 0.01);
+        stock = new Stock("stock1", 100, 0.04);
 
         timer = new Timer();
         timerTask = new TimerTask() {
@@ -121,12 +121,12 @@ public class ClientHandler implements Runnable {
             return "-P" + " " + "accepted" + " " + "reservedInfo";
         }
         if (parsedMessage[0].equals("-b")) {
-            clientBuySellStock("-b");
+            clientBuySellStock("-b", Integer.parseInt(parsedMessage[2]));
             System.out.println("Server accepted bue signal");
             return "-b" + " " + this.portfolio.getDeposit() + " " + this.portfolio.getStockCount();
         }
         if (parsedMessage[0].equals("-s")) {
-            clientBuySellStock("-s");
+            clientBuySellStock("-s", Integer.parseInt(parsedMessage[2]));
             System.out.println("Server accepted sell signal");
             return "-s" + " " + this.portfolio.getDeposit() + " " + this.portfolio.getStockCount();
         }
@@ -135,9 +135,9 @@ public class ClientHandler implements Runnable {
     }
 
     // функция реализующая логику покупки и продажжи одной акции
-    public void clientBuySellStock(String flag) {
+    public void clientBuySellStock(String flag, int stockAmount) {
         // не реализовано изменнение количества покупаемых и продаваемых акций. Пока "захардкожено" 1
-        int stockAmount = 1;
+        //int stockAmount = 1;
 
         double transactionAmount =  stock.getCurrentPrice() * stockAmount;
 

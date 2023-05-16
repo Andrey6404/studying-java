@@ -23,11 +23,10 @@ package com.Client.GUI;
         import java.net.Socket;
         import java.net.URL;
         import java.util.ResourceBundle;
+        import java.util.Timer;
+        import java.util.TimerTask;
 
 public class Fresh_controller implements Initializable {
-//    public void Fresh_controller(){
-//
-//    }
     @FXML
     private TextField Buy_count;
     @FXML
@@ -52,7 +51,7 @@ public class Fresh_controller implements Initializable {
     private Button Sell_button;
     @FXML
     private LineChart<Number, Number> stock_chart;
-    private XYChart.Series series;
+    private XYChart.Series<Number, Number> series;
     @FXML
     private TextArea username;
     @FXML
@@ -61,12 +60,13 @@ public class Fresh_controller implements Initializable {
     private Portfolio portfolio;
     private boolean StupidFlagToAlive = true;
     private boolean NetworkConnected = false;
-    private double currentStockProice = 0;
+    private double currentStockPrice = 0;
     private String string;//вовоино наследие
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // создание объека для хранения иформации о состоянии счета клиента(простейшая структура, как в C).
         portfolio = new Portfolio(1000.0, 0);
+        wallet.setText(String.valueOf(portfolio.getDeposit()));
         //NumberAxis xAxis = new NumberAxis();
         //NumberAxis yAxis = new NumberAxis();
         //stock_chart = new LineChart<Number, Number>(xAxis, yAxis);
@@ -77,7 +77,6 @@ public class Fresh_controller implements Initializable {
             network = new Network(new Socket("localhost", 1234),this);
             Thread nettread = new Thread(network);
             nettread.start();
-            //reciver();
             network.sendMessageToServer("-P" + " " + portfolio.getDeposit() + " " + portfolio.getStockCount());
         } catch (IOException e) {
             System.out.println("CONTROLLER initialize:: network is down");
@@ -91,36 +90,39 @@ public class Fresh_controller implements Initializable {
         //TryConnectToServ();
     }
         public void reciver(String[] word){
-//            new Thread(new Runnable() {
+//            Platform.runLater(new Runnable() {
 //                @Override
 //                public void run() {
 //                    String[] word;
-                    double DepositTmp = portfolio.getDeposit();
-                    int StockCountTmp = portfolio.getStockCount();
-                    //while (StupidFlagToAlive) {
-                    //    if (!network.Inbox) continue;
-                    //    network.Inbox = false;
-                    //    word = network.getServermessage().split(" ");
+//                    while (StupidFlagToAlive) {
+//                        if (!network.Inbox) continue;
+//                        network.Inbox = false;
+//                        word = network.getServermessage().split(" ");
                         if(word.length!=3) return;
                         switch (word[0]){
                             case "-c":
 //                                series = new XYChart.Series();
 //                                series.setName("stock1");
 //                                series.getData().add(new XYChart.Data(Integer.parseInt(vord[1]),Double.parseDouble(vord[2])));
-                                series.getData().add(new XYChart.Data(Integer.parseInt(word[1]),Double.parseDouble(word[2])));
-                                System.out.println(series.getData());
-                                stock_chart.getData().add(series);
+//                                series.getData().add(new XYChart.Data(Integer.parseInt(word[1]),Double.parseDouble(word[2])));
+//                                System.out.println(series.getData());
+//                                stock_chart.getData().add(series);
+                                updateChartData(word[1],Double.parseDouble(word[2]));
                                 Buy_prise.setText(word[2]);
                                 Sell_prise.setText(word[2]);
+                                if(!Buy_count.getText().equals("")) Buy_product.setText(String.valueOf(Double.parseDouble(Buy_count.getText())*Double.parseDouble(Buy_prise.getText())));
+                                else Buy_product.clear();
+                                if(!Sell_count.getText().equals("")) Sell_product.setText(String.valueOf(Double.parseDouble(Sell_count.getText())*Double.parseDouble(Sell_prise.getText())));
+                                else Sell_product.clear();
                                 break;
                             case "-b":
-                                portfolio.setDeposit(DepositTmp - Double.parseDouble(word[1]));
-                                portfolio.setStockCount(StockCountTmp + Integer.parseInt(word[2]));
+                                portfolio.setDeposit(Double.parseDouble(word[1]));
+                                portfolio.setStockCount(Integer.parseInt(word[2]));
                                 wallet.setText(String.valueOf(portfolio.getDeposit()));
                                 break;
                             case "-s":
-                                portfolio.setDeposit(DepositTmp + Double.parseDouble(word[1]));
-                                portfolio.setStockCount(StockCountTmp - Integer.parseInt(word[2]));
+                                portfolio.setDeposit(Double.parseDouble(word[1]));
+                                portfolio.setStockCount(Integer.parseInt(word[2]));
                                 wallet.setText(String.valueOf(portfolio.getDeposit()));
                                 break;
                             case "-P":
@@ -130,9 +132,10 @@ public class Fresh_controller implements Initializable {
                                 System.out.println("ThreadRead:: unknown message::"+word);
                                 break;
                         }
+    }
 //                    }
 //                }
-//            })//start;
+//            });//start;
 //        }
 //    private void TryConnectToServ(){
 //        while(!NetworkConnected){
@@ -146,8 +149,12 @@ public class Fresh_controller implements Initializable {
 //        }
 //    }
 
-//    private void updateChartData(XYChart.Series<Number,Number> printdata) {
-//        stock_chart.getData().add(printdata);
+    private void updateChartData(String X, double Y){//(XYChart.Series<Number,Number> printdata){
+        //series.getData().add(new XYChart.Series(String.valueOf(X),Y));
+        //System.out.println("here could be data!!!!");
+        //stock_chart.getData().add(series);
+        series.getData().add(new XYChart.Data(X,Y));
+    }
 //        Platform.runLater(new Runnable() {
 //            @Override
 //            public void run() {
@@ -156,16 +163,17 @@ public class Fresh_controller implements Initializable {
 //                System.out.println("updateChartData:: chart has been updated");
 //            }
 //        });
-    }
     @FXML
     void Buy_deal(ActionEvent event) {
-        network.sendMessageToServer("-b" + " " + portfolio.getDeposit() + " " + portfolio.getStockCount());
+        network.sendMessageToServer("-b" + " " + portfolio.getDeposit() + " " + Buy_count.getText());
+        Buy_count.clear();
         System.out.println("Buy_deal:: buy signal was sent to server");
     }
 
     @FXML
     void Buy_text_edited(KeyEvent event) {
         //Buy_prise.setText(stock_chart.);
+        Buy_product.clear();
         if (!checkIsDigit(Buy_prise.getText(),"NND")) {
             System.out.println("Buy_text_edited:: Prise error");
             Buy_button.setDisable(true);
@@ -180,15 +188,17 @@ public class Fresh_controller implements Initializable {
             System.out.println("Buy_text_edited:: Client is poor to this operation");
             Buy_button.setDisable(true);
 
+        }else {
+            Buy_button.setDisable(false);
+            System.out.println("Buy_text_edited:: Correct data, allow");
+            Buy_product.setText(Double.parseDouble(Buy_prise.getText()) * Double.parseDouble(Buy_count.getText()) + " $");
         }
-        Buy_button.setDisable(false);
-        System.out.println("Buy_text_edited:: Correct data, allow");
-        Buy_product.setText(Double.parseDouble(Buy_prise.getText())*Double.parseDouble(Buy_count.getText())+" $");
     }
 
     @FXML
     void Sell_deal(ActionEvent event) {
-        network.sendMessageToServer("-s" + " " + portfolio.getDeposit() + " " + portfolio.getStockCount());
+        network.sendMessageToServer("-s" + " " + portfolio.getDeposit() + " " + Sell_count.getText());
+        Sell_count.clear();
         System.out.println("Sell_deal:: sell signal was sent to server");
     }
 
