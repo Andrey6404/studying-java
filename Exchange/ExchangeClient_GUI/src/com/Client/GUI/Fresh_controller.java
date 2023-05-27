@@ -10,10 +10,7 @@ package com.Client.GUI;
         import javafx.fxml.Initializable;
         import javafx.scene.chart.LineChart;
         import javafx.scene.chart.XYChart;
-        import javafx.scene.control.Button;
-        import javafx.scene.control.MenuButton;
-        import javafx.scene.control.TextArea;
-        import javafx.scene.control.TextField;
+        import javafx.scene.control.*;
         import javafx.scene.input.InputMethodEvent;
         import javafx.scene.input.KeyEvent;
         import javafx.util.Duration;
@@ -44,8 +41,6 @@ public class Fresh_controller implements Initializable {
     @FXML
     private MenuButton Stok_list;
     @FXML
-    private Button Ticket_button;
-    @FXML
     private Button Buy_button;
     @FXML
     private Button Sell_button;
@@ -58,11 +53,21 @@ public class Fresh_controller implements Initializable {
     private TextArea wallet;
     @FXML
     private TextArea count;
+    @FXML
+    private ToggleButton AutoTimerButton;
+    @FXML
+    private Button Ticket_button;
+    @FXML
+    private TextField handTimerSteps;
+
+
     private Network network;
     private Portfolio portfolio;
     private boolean StupidFlagToAlive = true;
     private boolean NetworkConnected = false;
     private double currentStockPrice = 0;
+
+    private double comission = 5; //%//
     private String string;//вовоино наследие
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -104,8 +109,8 @@ public class Fresh_controller implements Initializable {
 //                                System.out.println(series.getData());
 //                                stock_chart.getData().add(series);
                                 updateChartData(word[1],Double.parseDouble(word[2]));
-                                Buy_prise.setText(word[2]);
-                                Sell_prise.setText(word[2]);
+                                Buy_prise.setText(String.valueOf(Double.parseDouble(word[2])*(1+comission/100)));
+                                Sell_prise.setText(String.valueOf(Double.parseDouble(word[2])*(1-comission/100)));
                                 try {
                                     if (!Buy_count.getText().equals(""))
                                         Buy_product.setText(String.valueOf(Double.parseDouble(Buy_count.getText()) * Double.parseDouble(Buy_prise.getText())));
@@ -178,6 +183,29 @@ public class Fresh_controller implements Initializable {
     }
 
     @FXML
+    void Ticket_button_pushed(ActionEvent event){
+        System.out.println("ManualButtonPushed!");
+        int tmpstp = 1;
+        if (checkIsDigit(handTimerSteps.getText(),"N")) tmpstp=Integer.parseInt(handTimerSteps.getText());
+        network.sendMessageToServer("-newstep "+tmpstp);
+        handTimerSteps.clear();
+    }
+    @FXML
+    void Auto_Timer_Pushed(ActionEvent event){
+        System.out.println("AutoButtonPushed! ::"+ AutoTimerButton.isSelected());
+        if (AutoTimerButton.isSelected()){
+            Ticket_button.setDisable(true);
+            handTimerSteps.setDisable(true);
+            handTimerSteps.clear();
+            network.sendMessageToServer("-time");
+        }else{
+            Ticket_button.setDisable(false);
+            handTimerSteps.setDisable(false);
+            network.sendMessageToServer("-timefroze");
+        }
+    }
+
+    @FXML
     void Buy_text_edited(KeyEvent event) {
         //Buy_prise.setText(stock_chart.);
         //Buy_product.clear();
@@ -234,10 +262,6 @@ public class Fresh_controller implements Initializable {
             System.out.println("Sell_text_edited:: Correct data, allow");
             Sell_product.setText(Double.parseDouble(Sell_prise.getText()) * Double.parseDouble(Sell_count.getText()) + " $");
         }
-    }
-
-    @FXML
-    void Ticket_button_pushed(ActionEvent event) {
     }
 
     private boolean checkIsDigit(String data, String type){
